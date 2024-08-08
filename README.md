@@ -1,37 +1,35 @@
 # Experiments
 
-This folder contains the scripts for running the experiments.
-
-## Structure of this folder
-
-Each system in the comparison has its own directory, all with a similar structure. In particular, they import the actual query implementations from dedicated repositories (so be sure to `git clone --recursive ...`).
-
-```
-athena/
-    queries/  # git submodule with query implementation
-        ...
-    parse.mk
-    run_experiments.sh
-    summarize_run.py
-    ...
-bigquery/
-    ...
-...
-common/
-    ...
-query-analysis/
-    ...
-```
-
 ## Prerequisites
 
-###Snowpandas adaptions
+### config.sh
+Please update the following fields:
 
-Replace with you personal configuration
+* `SSH_KEY_NAME`: The name of the AWS key used to access S3 and EC2, see [here](#SSH_KEY_NAME) for more details.
+* `INSTANCE_PROFILE`: This is a role in your aws account. To create a new one,
+    1. goto aws IAM
+    2. goto roles
+    3. create new role
+    4. select AWS service
+    5. select EC2 for usecase
+    6. set a proper name and finish. Finally set the the name of the role to `INSTANCE_PROFILE`
+* `GIT_USERNAME`: set your github username.
+* `GIT_TOKEN`: your github token. You can create one at /settings/developer settings on github.
+* `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`: This is the access key for your user. To create a new one,
+    1. goto aws IAM
+    2. goto users
+    3. select your user
+    4. goto security credentials
+    5. create a new access key
+* `PATH_TO_PRIVATE_KEY`: this is the path to your SSH private key.
+* `PATH_TO_CONFIGFILE`: this is the path to the `credentials.json` file of the `experiment` repository.
 
-* Replace config.sh.template
-* Replace credential.sh.template
-* Replace /home/yves/Desktop/deployment-scripts/snowflake-config.txt
+### credentials.json
+Please make a copy of the `credentials.json` file of your `experiment` repository and put it in the `common` folder. You can also find a template for it at `credentials_template.json`.
+
+### snowflake-config.txt
+Please make a copy of the config file of your snowflake into the base folder (`deployment-scripts`). Usually this file can be found at `~/.snowsql`. Your config should include your account name, username, password, and the connection name.
+
 
 ### Software installed locally
 
@@ -42,87 +40,90 @@ Replace with you personal configuration
   [virtual environments](https://docs.python.org/3/library/venv.html).
 * `jq`, `make`
 
-### Local configuration
-
-* Create a configuration file called `config.sh` in the
-  [`experiments/common/`](common/) folder based on the
-  [template](common/config.sh.template).
-
 ### AWS
 
 #### `SSH_KEY_NAME`
 
 The scripts assume that running `ssh some-ec2instance` works without user
 intervention, so you should use your default SSH key in AWS. To do that, follow
-[this guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws).
-The name that you choose during the key import is the one you need to store in
-`SSH_KEY_NAME`.
+[this guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws) to create a key pair.
+The name that you choose during the key import is the one you need to store in `SSH_KEY_NAME`.
 
-Note: this means you need to configure you local ssh to use the key mentioned above to interact with AWS
+To make a keypair as your default SSH key do the followings:
+- `cd ~/.ssh`
+- `touch config`
+- in `config` file put this line: `IdentityFile /path/to/keypair.pem`
+- `chmod 400 /path/to/keypair.pem`
 
-#### `INSTANCE_PROFILE`
-
-As an example, for `INSTANCE_PROFILE`, we created a role that affects the `AmazonElasticMapReduceforEC2Role` policy and has the following configuration. We then used the name of this role as the value of `INSTANCE_PROFILE`.
-
-```
+#### Setting user permissions
+In order to run the deploy script, your user must have certain permissions. For this, first create a new policy using the below json:
+```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Resource": "*",
-            "Action": [
-                "cloudwatch:*",
-                "dynamodb:*",
-                "ec2:Describe*",
-                "elasticmapreduce:Describe*",
-                "elasticmapreduce:ListBootstrapActions",
-                "elasticmapreduce:ListClusters",
-                "elasticmapreduce:ListInstanceGroups",
-                "elasticmapreduce:ListInstances",
-                "elasticmapreduce:ListSteps",
-                "kinesis:CreateStream",
-                "kinesis:DeleteStream",
-                "kinesis:DescribeStream",
-                "kinesis:GetRecords",
-                "kinesis:GetShardIterator",
-                "kinesis:MergeShards",
-                "kinesis:PutRecord",
-                "kinesis:SplitShard",
-                "rds:Describe*",
-                "s3:*",
-                "sdb:*",
-                "sns:*",
-                "sqs:*",
-                "glue:CreateDatabase",
-                "glue:UpdateDatabase",
-                "glue:DeleteDatabase",
-                "glue:GetDatabase",
-                "glue:GetDatabases",
-                "glue:CreateTable",
-                "glue:UpdateTable",
-                "glue:DeleteTable",
-                "glue:GetTable",
-                "glue:GetTables",
-                "glue:GetTableVersions",
-                "glue:CreatePartition",
-                "glue:BatchCreatePartition",
-                "glue:UpdatePartition",
-                "glue:DeletePartition",
-                "glue:BatchDeletePartition",
-                "glue:GetPartition",
-                "glue:GetPartitions",
-                "glue:BatchGetPartition",
-                "glue:CreateUserDefinedFunction",
-                "glue:UpdateUserDefinedFunction",
-                "glue:DeleteUserDefinedFunction",
-                "glue:GetUserDefinedFunction",
-                "glue:GetUserDefinedFunctions"
-            ]
-        }
-    ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Resource": "*",
+			"Action": [
+				"cloudwatch:*",
+				"dynamodb:*",
+				"ec2:Describe*",
+				"elasticmapreduce:Describe*",
+				"elasticmapreduce:ListBootstrapActions",
+				"elasticmapreduce:ListClusters",
+				"elasticmapreduce:ListInstanceGroups",
+				"elasticmapreduce:ListInstances",
+				"elasticmapreduce:ListSteps",
+				"kinesis:CreateStream",
+				"kinesis:DeleteStream",
+				"kinesis:DescribeStream",
+				"kinesis:GetRecords",
+				"kinesis:GetShardIterator",
+				"kinesis:MergeShards",
+				"kinesis:PutRecord",
+				"kinesis:SplitShard",
+				"rds:Describe*",
+				"s3:*",
+				"sdb:*",
+				"sns:*",
+				"sqs:*",
+				"glue:CreateDatabase",
+				"glue:UpdateDatabase",
+				"glue:DeleteDatabase",
+				"glue:GetDatabase",
+				"glue:GetDatabases",
+				"glue:CreateTable",
+				"glue:UpdateTable",
+				"glue:DeleteTable",
+				"glue:GetTable",
+				"glue:GetTables",
+				"glue:GetTableVersions",
+				"glue:CreatePartition",
+				"glue:BatchCreatePartition",
+				"glue:UpdatePartition",
+				"glue:DeletePartition",
+				"glue:BatchDeletePartition",
+				"glue:GetPartition",
+				"glue:GetPartitions",
+				"glue:BatchGetPartition",
+				"glue:CreateUserDefinedFunction",
+				"glue:UpdateUserDefinedFunction",
+				"glue:DeleteUserDefinedFunction",
+				"glue:GetUserDefinedFunction",
+				"glue:GetUserDefinedFunctions",
+				"ec2:CreateSecurityGroup",
+				"ec2:AuthorizeSecurityGroupIngress",
+				"ec2:DeleteSecurityGroup",
+				"iam:ListInstanceProfiles",
+				"iam:PassRole",
+				"ec2:RunInstances",
+				"ec2:TerminateInstances"
+			]
+		}
+	]
 }
 ```
+Then add this policy to the permissions of your user.
 
 ## Running experiments
 
