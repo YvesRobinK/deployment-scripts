@@ -97,7 +97,7 @@ echo "Deploying software..."
         conda env create --file /home/ec2-user/experiments/requirements/spark_req.yml
         conda env create --file /home/ec2-user/experiments/requirements/polars_req.yml
         conda env create --file /home/ec2-user/experiments/requirements/snowpark_pandas_req.yml
-        conda env create --file /home/ec2-user/experiments/requirements/vaex_req.yml
+        bash /home/ec2-user/experiments/requirements/vaex_setup.sh
 		EOF
 		
 	ssh -q ec2-user@$dnsname \
