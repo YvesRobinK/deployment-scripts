@@ -6,10 +6,10 @@
                 {
                     "AmiLaunchIndex": 0,
                     "ImageId": "ami-0ee3e5d4a5112ce6a",
-                    "InstanceId": "i-09ebfb79b4d49484a",
+                    "InstanceId": "i-059cea840506ff421",
                     "InstanceType": "m5d.16xlarge",
                     "KeyName": "new-ohio-key",
-                    "LaunchTime": "2024-08-09T13:34:18.000Z",
+                    "LaunchTime": "2024-08-15T19:22:00.000Z",
                     "Monitoring": {
                         "State": "disabled"
                     },
@@ -18,11 +18,11 @@
                         "GroupName": "",
                         "Tenancy": "default"
                     },
-                    "PrivateDnsName": "ip-172-31-10-158.us-east-2.compute.internal",
-                    "PrivateIpAddress": "172.31.10.158",
+                    "PrivateDnsName": "ip-172-31-14-205.us-east-2.compute.internal",
+                    "PrivateIpAddress": "172.31.14.205",
                     "ProductCodes": [],
-                    "PublicDnsName": "ec2-18-217-101-143.us-east-2.compute.amazonaws.com",
-                    "PublicIpAddress": "18.217.101.143",
+                    "PublicDnsName": "ec2-13-59-77-217.us-east-2.compute.amazonaws.com",
+                    "PublicIpAddress": "13.59.77.217",
                     "State": {
                         "Code": 16,
                         "Name": "running"
@@ -35,14 +35,14 @@
                         {
                             "DeviceName": "/dev/xvda",
                             "Ebs": {
-                                "AttachTime": "2024-08-09T13:34:18.000Z",
+                                "AttachTime": "2024-08-15T19:22:00.000Z",
                                 "DeleteOnTermination": true,
                                 "Status": "attached",
-                                "VolumeId": "vol-0b1d34b062c90dd11"
+                                "VolumeId": "vol-088ef9f99db216266"
                             }
                         }
                     ],
-                    "ClientToken": "086c36f4-431e-4c4d-b6b6-0e156c4f79b5",
+                    "ClientToken": "3ba20527-cc56-4616-b1b6-e2ab05ffdbdd",
                     "EbsOptimized": false,
                     "EnaSupport": true,
                     "Hypervisor": "xen",
@@ -54,12 +54,12 @@
                         {
                             "Association": {
                                 "IpOwnerId": "amazon",
-                                "PublicDnsName": "ec2-18-217-101-143.us-east-2.compute.amazonaws.com",
-                                "PublicIp": "18.217.101.143"
+                                "PublicDnsName": "ec2-13-59-77-217.us-east-2.compute.amazonaws.com",
+                                "PublicIp": "13.59.77.217"
                             },
                             "Attachment": {
-                                "AttachTime": "2024-08-09T13:34:18.000Z",
-                                "AttachmentId": "eni-attach-09ebbea8e347c58dc",
+                                "AttachTime": "2024-08-15T19:22:00.000Z",
+                                "AttachmentId": "eni-attach-05fd5acad7c514558",
                                 "DeleteOnTermination": true,
                                 "DeviceIndex": 0,
                                 "Status": "attached",
@@ -68,26 +68,26 @@
                             "Description": "",
                             "Groups": [
                                 {
-                                    "GroupName": "MySecurityGroup",
-                                    "GroupId": "sg-052735d238da78a65"
+                                    "GroupName": "default",
+                                    "GroupId": "sg-0c0f9c9aa2fd610b9"
                                 }
                             ],
                             "Ipv6Addresses": [],
-                            "MacAddress": "02:14:bb:bd:8b:cf",
-                            "NetworkInterfaceId": "eni-03286d5866988dce2",
+                            "MacAddress": "02:82:f8:fb:c7:0f",
+                            "NetworkInterfaceId": "eni-00d55c68b84088a7b",
                             "OwnerId": "381492132924",
-                            "PrivateDnsName": "ip-172-31-10-158.us-east-2.compute.internal",
-                            "PrivateIpAddress": "172.31.10.158",
+                            "PrivateDnsName": "ip-172-31-14-205.us-east-2.compute.internal",
+                            "PrivateIpAddress": "172.31.14.205",
                             "PrivateIpAddresses": [
                                 {
                                     "Association": {
                                         "IpOwnerId": "amazon",
-                                        "PublicDnsName": "ec2-18-217-101-143.us-east-2.compute.amazonaws.com",
-                                        "PublicIp": "18.217.101.143"
+                                        "PublicDnsName": "ec2-13-59-77-217.us-east-2.compute.amazonaws.com",
+                                        "PublicIp": "13.59.77.217"
                                     },
                                     "Primary": true,
-                                    "PrivateDnsName": "ip-172-31-10-158.us-east-2.compute.internal",
-                                    "PrivateIpAddress": "172.31.10.158"
+                                    "PrivateDnsName": "ip-172-31-14-205.us-east-2.compute.internal",
+                                    "PrivateIpAddress": "172.31.14.205"
                                 }
                             ],
                             "SourceDestCheck": true,
@@ -101,8 +101,8 @@
                     "RootDeviceType": "ebs",
                     "SecurityGroups": [
                         {
-                            "GroupName": "MySecurityGroup",
-                            "GroupId": "sg-052735d238da78a65"
+                            "GroupName": "default",
+                            "GroupId": "sg-0c0f9c9aa2fd610b9"
                         }
                     ],
                     "SourceDestCheck": true,
@@ -130,7 +130,7 @@
                     },
                     "PlatformDetails": "Linux/UNIX",
                     "UsageOperation": "RunInstances",
-                    "UsageOperationUpdateTime": "2024-08-09T13:34:18.000Z",
+                    "UsageOperationUpdateTime": "2024-08-15T19:22:00.000Z",
                     "PrivateDnsNameOptions": {
                         "HostnameType": "ip-name",
                         "EnableResourceNameDnsARecord": false,
@@ -139,7 +139,7 @@
                 }
             ],
             "OwnerId": "381492132924",
-            "ReservationId": "r-072793b90c8981781"
+            "ReservationId": "r-0d342f1e546cca00d"
         }
     ]
 }

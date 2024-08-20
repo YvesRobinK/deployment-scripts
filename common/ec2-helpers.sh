@@ -61,27 +61,27 @@ function deploy_cluster {
                     --filters "Name=name,Values=$image_name" "Name=state,Values=available" \
                     --query "Images[0].ImageId" --output text)"
                     
-    MY_IP=$(curl -s http://checkip.amazonaws.com)
-    SECURITY_GROUP_NAME="MySecurityGroup"
-    DESCRIPTION="Security group for SSH access from a specific IP"
-    echo $DESCRIPTION
+    #MY_IP=$(curl -s http://checkip.amazonaws.com)
+    #SECURITY_GROUP_NAME="MySecurityGroup"
+    #DESCRIPTION="Security group for SSH access from a specific IP"
+    #echo $DESCRIPTION
     # Check if the security group already exists
-    GROUP_ID=$(aws ec2 describe-security-groups --filters Name=group-name,Values="$SECURITY_GROUP_NAME" --query "SecurityGroups[0].GroupId" --output text 2>/dev/null)
+    #GROUP_ID=$(aws ec2 describe-security-groups --filters Name=group-name,Values="$SECURITY_GROUP_NAME" --query "SecurityGroups[0].GroupId" --output text 2>/dev/null)
 
-    echo $DESCRIPTION
+    #echo $DESCRIPTION
     # If the security group exists, delete it
-    if [ "$GROUP_ID" != "None" ]; then
-        echo "Security group '$SECURITY_GROUP_NAME' exists. Deleting..."
-        aws ec2 delete-security-group --group-id "$GROUP_ID"
-        echo "Deleted existing security group: $SECURITY_GROUP_NAME"
-    fi
-    echo $DESCRIPTION
+    #if [ "$GROUP_ID" != "None" ]; then
+     #   echo "Security group '$SECURITY_GROUP_NAME' exists. Deleting..."
+    #    aws ec2 delete-security-group --group-id "$GROUP_ID"
+    #    echo "Deleted existing security group: $SECURITY_GROUP_NAME"
+    #fi
+    #echo $DESCRIPTION
     # Create a new security group
-    echo "Creating security group: $SECURITY_GROUP_NAME"
-    NEW_GROUP_ID=$(aws ec2 create-security-group --group-name "$SECURITY_GROUP_NAME" --description "$DESCRIPTION" --query "GroupId" --output text)
+    #echo "Creating security group: $SECURITY_GROUP_NAME"
+    #NEW_GROUP_ID=$(aws ec2 create-security-group --group-name "$SECURITY_GROUP_NAME" --description "$DESCRIPTION" --query "GroupId" --output text)
 
     # Add a rule to allow SSH from the current IP
-    aws ec2 authorize-security-group-ingress --group-name MySecurityGroup --protocol tcp --port 22 --cidr ${MY_IP}/32
+    #aws ec2 authorize-security-group-ingress --group-name MySecurityGroup --protocol tcp --port 22 --cidr ${MY_IP}/32
 
     # Start instances
     aws ec2 run-instances \
@@ -92,7 +92,6 @@ function deploy_cluster {
         --key-name $SSH_KEY_NAME \
         --region "us-east-2" \
         --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":32}}]' \
-        --security-groups MySecurityGroup \
         > "$deploy_dir/run-instances.json"
 
     instanceids=($(discover_instanceids "$deploy_dir"))
@@ -150,6 +149,7 @@ function deploy_cluster {
 				sudo mkdir /data
 				sudo mount LABEL=data /data
 				sudo chown $USER:$USER /data
+				sudo chmod 777 /data
 				
 			    
 				

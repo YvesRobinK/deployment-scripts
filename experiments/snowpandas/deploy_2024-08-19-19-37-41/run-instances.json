@@ -4,10 +4,10 @@
         {
             "AmiLaunchIndex": 0,
             "ImageId": "ami-0ee3e5d4a5112ce6a",
-            "InstanceId": "i-02ef50b1726e060d2",
+            "InstanceId": "i-0a175b772d1c0882e",
             "InstanceType": "m5d.16xlarge",
             "KeyName": "new-ohio-key",
-            "LaunchTime": "2024-08-09T13:00:24.000Z",
+            "LaunchTime": "2024-08-19T17:37:49.000Z",
             "Monitoring": {
                 "State": "disabled"
             },
@@ -16,8 +16,8 @@
                 "GroupName": "",
                 "Tenancy": "default"
             },
-            "PrivateDnsName": "ip-172-31-4-196.us-east-2.compute.internal",
-            "PrivateIpAddress": "172.31.4.196",
+            "PrivateDnsName": "ip-172-31-15-202.us-east-2.compute.internal",
+            "PrivateIpAddress": "172.31.15.202",
             "ProductCodes": [],
             "PublicDnsName": "",
             "State": {
@@ -29,7 +29,7 @@
             "VpcId": "vpc-0fd195f7f2b48d14d",
             "Architecture": "x86_64",
             "BlockDeviceMappings": [],
-            "ClientToken": "93939ce6-e4f7-467f-9f5e-ad12fab49186",
+            "ClientToken": "6b782b9a-5005-457d-aa85-e0498341a022",
             "EbsOptimized": false,
             "EnaSupport": true,
             "Hypervisor": "xen",
@@ -40,8 +40,8 @@
             "NetworkInterfaces": [
                 {
                     "Attachment": {
-                        "AttachTime": "2024-08-09T13:00:24.000Z",
-                        "AttachmentId": "eni-attach-0c5dc22f8749cfe6a",
+                        "AttachTime": "2024-08-19T17:37:49.000Z",
+                        "AttachmentId": "eni-attach-08a650d66a45d33af",
                         "DeleteOnTermination": true,
                         "DeviceIndex": 0,
                         "Status": "attaching",
@@ -50,21 +50,21 @@
                     "Description": "",
                     "Groups": [
                         {
-                            "GroupName": "MySecurityGroup",
-                            "GroupId": "sg-09731d7bba5abc3ca"
+                            "GroupName": "default",
+                            "GroupId": "sg-0c0f9c9aa2fd610b9"
                         }
                     ],
                     "Ipv6Addresses": [],
-                    "MacAddress": "02:c2:ac:58:3d:1f",
-                    "NetworkInterfaceId": "eni-07ed024ff883f112d",
+                    "MacAddress": "02:28:0c:3d:90:41",
+                    "NetworkInterfaceId": "eni-07fec58c6715fd196",
                     "OwnerId": "381492132924",
-                    "PrivateDnsName": "ip-172-31-4-196.us-east-2.compute.internal",
-                    "PrivateIpAddress": "172.31.4.196",
+                    "PrivateDnsName": "ip-172-31-15-202.us-east-2.compute.internal",
+                    "PrivateIpAddress": "172.31.15.202",
                     "PrivateIpAddresses": [
                         {
                             "Primary": true,
-                            "PrivateDnsName": "ip-172-31-4-196.us-east-2.compute.internal",
-                            "PrivateIpAddress": "172.31.4.196"
+                            "PrivateDnsName": "ip-172-31-15-202.us-east-2.compute.internal",
+                            "PrivateIpAddress": "172.31.15.202"
                         }
                     ],
                     "SourceDestCheck": true,
@@ -78,8 +78,8 @@
             "RootDeviceType": "ebs",
             "SecurityGroups": [
                 {
-                    "GroupName": "MySecurityGroup",
-                    "GroupId": "sg-09731d7bba5abc3ca"
+                    "GroupName": "default",
+                    "GroupId": "sg-0c0f9c9aa2fd610b9"
                 }
             ],
             "SourceDestCheck": true,
@@ -114,5 +114,5 @@
         }
     ],
     "OwnerId": "381492132924",
-    "ReservationId": "r-0ac5377223b308968"
+    "ReservationId": "r-0465cce8853d94301"
 }
