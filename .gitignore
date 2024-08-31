@@ -662,4 +662,6 @@ benchmark/credential/credentials.py
 
 ./common/snowflake-config.txt
 
+*.pem
+
 experiments/**
