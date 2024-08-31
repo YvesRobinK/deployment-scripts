@@ -659,3 +659,5 @@ benchmark/credential/credentials.py
 .pem
 !spaceShip/data/train.csv
 !house_price/data/train.csv
+
+experiments/**
