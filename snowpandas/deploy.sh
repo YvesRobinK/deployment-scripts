@@ -4,7 +4,7 @@ SCRIPT_PATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 # Get the parameters
 NUM_INSTANCES=${1:-1}
-INSTANCE_TYPE=${2:-"m5d.16xlarge"}
+INSTANCE_TYPE=${2:-"m5d.8xlarge"}
 PORT_OFFSET=${3:-0}  # Useful when running multiple clusters in parallel
 
 # Load common functions
@@ -45,7 +45,7 @@ echo "Deploying software..."
         mkdir /home/ec2-user/.snowsql
 		EOF
 		
-	scp ../snowflake-config.txt ec2-user@$dnsname:~/.snowsql/config
+	scp ../common/snowflake-config.txt ec2-user@$dnsname:~/.snowsql/config
 	
 	ssh -q ec2-user@$dnsname \
         <<-EOF
@@ -76,7 +76,7 @@ echo "Deploying software..."
         conda activate omnisci-dev
         mkdir build && cd build
         cmake ..
-        make -j 
+        make -j 6
         make install
 		EOF
 		

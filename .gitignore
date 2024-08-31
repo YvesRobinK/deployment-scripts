@@ -660,4 +660,6 @@ benchmark/credential/credentials.py
 !spaceShip/data/train.csv
 !house_price/data/train.csv
 
+./common/snowflake-config.txt
+
 experiments/**

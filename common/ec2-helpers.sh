@@ -54,13 +54,13 @@ function deploy_cluster {
     # Find image ID in this region
     #image_name="amzn2-ami-hvm-2.0.20200722.0-x86_64-gp2"
     image_name="amzn2-ami-hvm-2.0.20240719.0-x86_64-gp2"
+    #image_name="al2023-ami-2023.2.20230718.0-x86_64-gp2"
     echo $image_name
     image_id="$(aws ec2 describe-images \
                     --owners amazon \
                     --region "us-east-2" \
                     --filters "Name=name,Values=$image_name" "Name=state,Values=available" \
                     --query "Images[0].ImageId" --output text)"
-                    
     #MY_IP=$(curl -s http://checkip.amazonaws.com)
     #SECURITY_GROUP_NAME="MySecurityGroup"
     #DESCRIPTION="Security group for SSH access from a specific IP"
