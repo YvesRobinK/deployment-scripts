@@ -25,7 +25,7 @@ echo "Deploying software..."
 (
     echo "Executed"
     ssh -q ec2-user@$dnsname -o StrictHostKeyChecking=accept-new true
-    
+
     ssh -q ec2-user@$dnsname \
         <<-EOF
         sudo yum -y install pip
@@ -44,22 +44,22 @@ echo "Deploying software..."
         sudo rpm -i https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.3/linux_x86_64/snowflake-snowsql-1.3.1-1.x86_64.rpm
         mkdir /home/ec2-user/.snowsql
 		EOF
-		
+
 	scp ../common/snowflake-config.txt ec2-user@$dnsname:~/.snowsql/config
-	
+
 	ssh -q ec2-user@$dnsname \
         <<-EOF
         sudo ls -ld /usr/lib64/snowflake/snowsql
         sudo ls -ld /usr/lib64/snowflake/snowsql/*
         sudo chmod -R 755 /usr/lib64/snowflake/snowsql
 		EOF
-		
+
 	ssh -q ec2-user@$dnsname \
         <<-EOF
         sudo yum -y install git
         git clone https://$GIT_USERNAME:$GIT_TOKEN@github.com/YvesRobinK/experiments
 		EOF
-		
+
 	ssh -q ec2-user@$dnsname \
         <<-EOF
 		aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile $AWS_PROFILE
@@ -67,7 +67,7 @@ echo "Deploying software..."
         aws configure set region $AWS_DEFAULT_REGION --profile $AWS_PROFILE
         aws configure set output $AWS_OUTPUT_FORMAT --profile $AWS_PROFILE
 		EOF
-		
+
 	ssh -q ec2-user@$dnsname \
         <<-EOF
         git clone https://$GIT_USERNAME:$GIT_TOKEN@github.com/intel-ai/hdk.git
@@ -79,7 +79,7 @@ echo "Deploying software..."
         make -j 6
         make install
 		EOF
-		
+
 	ssh -q ec2-user@$dnsname \
         <<-EOF
         git clone https://$GIT_USERNAME:$GIT_TOKEN@github.com/YvesRobinK/modin
@@ -87,9 +87,9 @@ echo "Deploying software..."
         pip install modin
         pip install /home/ec2-user/modin
 		EOF
-	
+
 	scp ../common/credentials.json ec2-user@$dnsname:~/experiments/credentials.json
-	
+
 	ssh -q ec2-user@$dnsname \
         <<-EOF
         conda env create --file /home/ec2-user/experiments/requirements/pandas_req.yml
@@ -99,33 +99,22 @@ echo "Deploying software..."
         conda env create --file /home/ec2-user/experiments/requirements/snowpark_pandas_req.yml
         bash /home/ec2-user/experiments/requirements/vaex_setup.sh
 		EOF
-		
+
 	ssh -q ec2-user@$dnsname \
         <<-EOF
         export PYTHONPATH=$PYTHONPATH:/home/ec2-user/experiments
         echo 'export PYTHONPATH=$PYTHONPATH:/home/ec2-user/experiments' >> ~/.bashrc
 
 		EOF
-		
+
 	ssh -q ec2-user@$dnsname \
         <<-EOF
         sudo yum install java-1.8.0-openjdk -y
         bash /home/ec2-user/experiments/requirements/snowpandas_setup.sh
         bash /home/ec2-user/experiments/requirements/vaex_setup.sh
 		EOF
-	
+
 ) &> "$deploy_dir/deploy_$dnsname.log"
 echo "Done."
 duration=$SECONDS
 echo "$((duration / 60)) minutes and $((duration % 60)) seconds elapsed during sorfware deployment."
-
-sudo ssh -i /home/yves/Desktop/experiments-scripts-master/experiments/new-ohio-key.pem ec2-user@$dnsname
-yes
-
-# Set up SSH tunnel to head node
-#for p in 4040 8001 18080
-#do  
-#	ssh -L $(( ${p} + ${PORT_OFFSET} )):localhost:${p} -N -q hadoop@$dnsname &
-#	tunnelpid=$!
-#	echo "$tunnelpid" >> "$deploy_dir/tunnel.pid"
-#done
