@@ -57,7 +57,7 @@ echo "Deploying software..."
 	ssh -q ec2-user@$dnsname \
         <<-EOF
         sudo yum -y install git
-        git clone https://$GIT_USERNAME:$GIT_TOKEN@github.com/YvesRobinK/experiments
+        git clone https://$GIT_USERNAME:$GIT_TOKEN@github.com/YvesRobinK/dataframe-experiments
 		EOF
 
 	ssh -q ec2-user@$dnsname \
