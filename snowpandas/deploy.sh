@@ -88,30 +88,30 @@ echo "Deploying software..."
         pip install /home/ec2-user/modin
 		EOF
 
-	scp ../common/credentials.json ec2-user@$dnsname:~/experiments/credentials.json
+	scp ../common/credentials.json ec2-user@$dnsname:~/dataframe-experiments/credentials.json
 
 	ssh -q ec2-user@$dnsname \
         <<-EOF
-        conda env create --file /home/ec2-user/experiments/requirements/pandas_req.yml
-        conda env create --file /home/ec2-user/experiments/requirements/modin_req.yml
-        conda env create --file /home/ec2-user/experiments/requirements/spark_req.yml
-        conda env create --file /home/ec2-user/experiments/requirements/polars_req.yml
-        conda env create --file /home/ec2-user/experiments/requirements/snowpark_pandas_req.yml
-        bash /home/ec2-user/experiments/requirements/vaex_setup.sh
+        conda env create --file /home/ec2-user/dataframe-experiments/requirements/pandas_req.yml
+        conda env create --file /home/ec2-user/dataframe-experiments/requirements/modin_req.yml
+        conda env create --file /home/ec2-user/dataframe-experiments/requirements/spark_req.yml
+        conda env create --file /home/ec2-user/dataframe-experiments/requirements/polars_req.yml
+        conda env create --file /home/ec2-user/dataframe-experiments/requirements/snowpark_pandas_req.yml
+        bash /home/ec2-user/dataframe-experiments/requirements/vaex_setup.sh
 		EOF
 
 	ssh -q ec2-user@$dnsname \
         <<-EOF
-        export PYTHONPATH=$PYTHONPATH:/home/ec2-user/experiments
-        echo 'export PYTHONPATH=$PYTHONPATH:/home/ec2-user/experiments' >> ~/.bashrc
+        export PYTHONPATH=$PYTHONPATH:/home/ec2-user/dataframe-experiments
+        echo 'export PYTHONPATH=$PYTHONPATH:/home/ec2-user/dataframe-experiments' >> ~/.bashrc
 
 		EOF
 
 	ssh -q ec2-user@$dnsname \
         <<-EOF
         sudo yum install java-1.8.0-openjdk -y
-        bash /home/ec2-user/experiments/requirements/snowpandas_setup.sh
-        bash /home/ec2-user/experiments/requirements/vaex_setup.sh
+        bash /home/ec2-user/dataframe-experiments/requirements/snowpandas_setup.sh
+        bash /home/ec2-user/dataframe-experiments/requirements/vaex_setup.sh
 		EOF
 
 ) &> "$deploy_dir/deploy_$dnsname.log"
